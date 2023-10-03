@@ -1,8 +1,5 @@
 name: lint
-on:
-  push:
-    branches:
-      - '*'
+on: push
 
 jobs:
   run-lint-check-csharp:
