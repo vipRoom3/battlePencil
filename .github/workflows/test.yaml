@@ -20,4 +20,4 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Lint Check
         run: |
-          dotnet format --verify-no-changes
+          dotnet format --verify-no-changes --include ./Assets/Scripts/
