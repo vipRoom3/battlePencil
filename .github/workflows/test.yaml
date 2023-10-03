@@ -1,0 +1,25 @@
+name: lint
+on:
+  push:
+    branches:
+      - '*'
+env:
+  DOTNET_VERSION: '5.0'
+
+jobs:
+  run-lint-check-csharp:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Lint Check
+        run: |
+          dotnet format --check
