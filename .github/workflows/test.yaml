@@ -20,4 +20,4 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Lint Check
         run: |
-          dotnet format --verify-no-changes --folder ./Assets/Scripts/
+          dotnet format --verify-no-changes --folder /home/runner/work/battlePencil/battlePencil/Assets/Scripts/
