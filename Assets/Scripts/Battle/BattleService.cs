@@ -14,22 +14,37 @@ public class BattleService : MonoBehaviour
         get { return endGame; }
     }
 
-    public bool EndGame()
+    public void EndGame()
     {
-        bool isEndGame = true;
+        // ここでゲーム終了の処理を行う
+        bool isEndGame = false;
+        // TODO: ゲーム終了の条件を満たしたらtrueにする
         endGame.OnNext(isEndGame);
-        return false;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Service Start");
+        // EndGame();
 
+        // TODO: プレイヤーの初期化処理を行う
+        Player player = new Player();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    // RollPencil
+    public void OnClick()
+    {
+        Debug.Log("OnClick");
+        // TODO: ここでペンシルを振る処理を行う
+
+        // TODO: ここでペンシルを振った後の処理を行う
+        EndGame();
     }
 }

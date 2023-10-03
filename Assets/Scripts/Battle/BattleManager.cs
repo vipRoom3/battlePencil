@@ -1,20 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UniRx;
 
 
 public class BattleManager : MonoBehaviour
 {
-    private BattleService battleService;
+    [SerializeField] private BattleService battleService;
+
+    void Awake()
+    {
+        battleService.IsEndGame.Subscribe(isEndGame =>
+        {
+            Debug.Log(isEndGame);
+        });
+    }
     // Start is called before the first frame update
     void Start()
     {
-        // endgameをsubscribeする
-        battleService.IsEndGame.Subscribe(endGame =>
-        {
-            // ここにゲーム終了時の処理を書く
-            Debug.Log(endGame);
-        });
+        Debug.Log("Manager Start");
     }
 
     // Update is called once per frame
@@ -22,4 +27,6 @@ public class BattleManager : MonoBehaviour
     {
 
     }
+
+    // phaseの管理
 }

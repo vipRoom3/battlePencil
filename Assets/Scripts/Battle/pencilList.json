@@ -1,0 +1,13 @@
+{
+    "test":{
+        "MaxHp": 100,
+        "ActionList ": [
+            "attack",
+            "miss",
+            "heal",
+            "attack",
+            "miss",
+            "heal"
+        ]
+    }
+}
