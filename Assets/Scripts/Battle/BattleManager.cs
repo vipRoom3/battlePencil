@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BattleManager : MonoBehaviour
 {
+    private BattleService battleService;
     // Start is called before the first frame update
     void Start()
     {
-        // U‚é‚Ì‚Í“¯
-
-        // Battle Fˆê‡‚Ì‚±‚Æ
-        // RollFase Fƒoƒgƒyƒ“‚ğU‚Á‚ÄƒAƒNƒVƒ‡ƒ“‚ÉˆÚ‚é‚Ü‚Å
-        // ActionFase FƒAƒNƒVƒ‡ƒ“‚ªI‚í‚é‚Ü‚Å
+        // endgameã‚’subscribeã™ã‚‹
+        battleService.IsEndGame.Subscribe(endGame =>
+        {
+            // ã“ã“ã«ã‚²ãƒ¼ãƒ çµ‚äº†æ™‚ã®å‡¦ç†ã‚’æ›¸ã
+            Debug.Log(endGame);
+        });
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
