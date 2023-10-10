@@ -1,13 +1,16 @@
 {
-    "test":{
-        "MaxHp": 100,
-        "ActionList ": [
-            "attack",
-            "miss",
-            "heal",
-            "attack",
-            "miss",
-            "heal"
-        ]
-    }
+    "pencils":[
+        {
+            "Name": "test",
+            "MaxHp": 100,
+            "ActionList": [
+                "attack",
+                "miss",
+                "heal",
+                "attack",
+                "miss",
+                "heal"
+            ]
+        }
+    ]
 }

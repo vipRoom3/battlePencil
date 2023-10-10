@@ -8,11 +8,11 @@ public class Player
     // playerが持ってるペンシルの名前？からペンシルを生成する
     public Pencil pencil;
 
-    public Player()
+    public Player(Pencil pencil)
     {
-        this.pencil = new Pencil("test");
-        Debug.Log("Player Start");
-        Debug.Log(this.pencil.Name);
+        this.pencil = pencil;
+        // Debug.Log("Player Start");
+        // Debug.Log(this.pencil.Name);
         // Pencilを生成する
         // Pencil pencil = new Pencil("test");
     }

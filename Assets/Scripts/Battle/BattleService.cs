@@ -9,6 +9,34 @@ public class BattleService : MonoBehaviour
 
     private Subject<bool> endGame = new Subject<bool>();
 
+    public class PencilManager {
+
+        [System.Serializable]
+        public class JsonPencil {
+            public int MaxHp;
+            public string Name;
+            public List<string> ActionList;
+        }
+
+        [System.Serializable]
+        public class JsonPencils {
+            public List<JsonPencil> pencils;
+        }
+        public List<Pencil> All = new List<Pencil>();
+        public void Load() {
+            string json = Resources.Load<TextAsset>("json/pencilList").ToString();
+            // jsonをパースする
+            JsonPencils jsonPencils = JsonUtility.FromJson<JsonPencils>(json);
+            foreach (JsonPencil jsonpencil in jsonPencils.pencils) {
+                Pencil p = new Pencil(
+                    jsonpencil.MaxHp,
+                    jsonpencil.Name,
+                    jsonpencil.ActionList
+                );
+                this.All.Add(p);
+            }
+        }
+    }
     public IObservable<bool> IsEndGame
     {
         get { return endGame; }
@@ -28,8 +56,17 @@ public class BattleService : MonoBehaviour
         Debug.Log("Service Start");
         // EndGame();
 
+        PencilManager pd = new PencilManager();
+        pd.Load();
+
+        // プレイヤーの鉛筆を決める
+        System.Random r = new System.Random();
+        Pencil player1Pencil = pd.All[r.Next(0, pd.All.Count)];
+
         // TODO: プレイヤーの初期化処理を行う
-        Player player = new Player();
+        Player player1 = new Player(player1Pencil);
+
+        Debug.Log(player1.pencil.Name);
     }
 
     // Update is called once per frame
