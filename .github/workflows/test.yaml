@@ -2,7 +2,7 @@ name: lint
 on: push
 
 env:
-  DOTNET_VERSION: '3.1'
+  DOTNET_VERSION: '2.0'
 
 jobs:
   run-lint-check-csharp:
