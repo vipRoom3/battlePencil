@@ -14,9 +14,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: pwd check
-        run: |
-          pwd
       - name: Lint Check
         run: |
           dotnet format --verify-no-changes battlePencil.csproj --include Assets/Scripts/
