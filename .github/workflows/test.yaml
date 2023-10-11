@@ -2,7 +2,7 @@ name: lint
 on: push
 
 env:
-  DOTNET_VERSION: '2.0'
+  DOTNET_VERSION: '7.x'
 
 jobs:
   run-lint-check-csharp:
@@ -20,4 +20,4 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Lint Check
         run: |
-          dotnet format -f /home/runner/work/battlePencil/battlePencil/Assets/Scripts/ --check
+          dotnet format --verify-no-changes /home/runner/work/battlePencil/battlePencil.csproj --include /home/runner/work/battlePencil/battlePencil/Assets/Scripts/
