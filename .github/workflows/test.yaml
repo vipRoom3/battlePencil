@@ -1,18 +1,12 @@
 name: lint
-on:
-  push:
-    branches:
-      - '*'
+on: push
+
 env:
-  DOTNET_VERSION: '5.0'
+  DOTNET_VERSION: '7.x'
 
 jobs:
   run-lint-check-csharp:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,4 +16,4 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Lint Check
         run: |
-          dotnet format --check
+          dotnet format --verify-no-changes battlePencil.csproj --include Assets/Scripts/
