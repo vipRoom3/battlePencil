@@ -9,25 +9,30 @@ public class BattleService : MonoBehaviour
 
     private Subject<bool> endGame = new Subject<bool>();
 
-    public class PencilManager {
+    public class PencilManager
+    {
 
         [System.Serializable]
-        public class JsonPencil {
+        public class JsonPencil
+        {
             public int MaxHp;
             public string Name;
             public List<string> ActionList;
         }
 
         [System.Serializable]
-        public class JsonPencils {
+        public class JsonPencils
+        {
             public List<JsonPencil> pencils;
         }
         public List<Pencil> All = new List<Pencil>();
-        public void Load() {
+        public void Load()
+        {
             string json = Resources.Load<TextAsset>("json/pencilList").ToString();
             // jsonをパースする
             JsonPencils jsonPencils = JsonUtility.FromJson<JsonPencils>(json);
-            foreach (JsonPencil jsonpencil in jsonPencils.pencils) {
+            foreach (JsonPencil jsonpencil in jsonPencils.pencils)
+            {
                 Pencil p = new Pencil(
                     jsonpencil.MaxHp,
                     jsonpencil.Name,

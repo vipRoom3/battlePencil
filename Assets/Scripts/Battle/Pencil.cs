@@ -9,7 +9,8 @@ public class Pencil
     public string Name { get; }
     public List<string> ActionList { get; }
 
-    public Pencil(int maxHp, string name, List<string> actionList) {
+    public Pencil(int maxHp, string name, List<string> actionList)
+    {
         this.MaxHp = maxHp;
         this.Name = name;
         this.ActionList = new List<string>(actionList);
