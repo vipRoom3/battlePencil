@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -13,7 +12,7 @@ public class BattleService : MonoBehaviour
     public class PencilListManager
     {
 
-        [System.Serializable]
+        [Serializable]
         public class JsonPencil
         {
             public int MaxHp;
@@ -21,7 +20,7 @@ public class BattleService : MonoBehaviour
             public List<string> ActionList;
         }
 
-        [System.Serializable]
+        [Serializable]
         public class JsonPencils
         {
             public List<JsonPencil> pencils;
