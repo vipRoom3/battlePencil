@@ -9,11 +9,16 @@ public class Pencil
     public string Name { get; }
     public List<string> ActionList { get; }
 
-    public Pencil(int maxHp, string name, List<string> actionList)
+    public GameObject Obj;
+
+
+
+    public Pencil(int maxHp, string name, List<string> actionList, GameObject obj)
     {
-        this.MaxHp = maxHp;
-        this.Name = name;
-        this.ActionList = new List<string>(actionList);
+        MaxHp = maxHp;
+        Name = name;
+        ActionList = new List<string>(actionList);
+        Obj = obj;
     }
 
 }

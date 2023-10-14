@@ -8,6 +8,7 @@ public class BattleService : MonoBehaviour
 {
 
     private Subject<bool> endGame = new Subject<bool>();
+    [SerializeField] private GameObject pencilPrefab;
 
     public class PencilManager
     {
@@ -26,19 +27,21 @@ public class BattleService : MonoBehaviour
             public List<JsonPencil> pencils;
         }
         public List<Pencil> All = new List<Pencil>();
-        public void Load()
+        public void Load(GameObject pencilPrefab)
         {
             string json = Resources.Load<TextAsset>("json/pencilList").ToString();
             // jsonをパースする
             JsonPencils jsonPencils = JsonUtility.FromJson<JsonPencils>(json);
+            GameObject pencilObj = Instantiate(pencilPrefab);
             foreach (JsonPencil jsonpencil in jsonPencils.pencils)
             {
                 Pencil p = new Pencil(
                     jsonpencil.MaxHp,
                     jsonpencil.Name,
-                    jsonpencil.ActionList
+                    jsonpencil.ActionList,
+                    pencilObj
                 );
-                this.All.Add(p);
+                All.Add(p);
             }
         }
     }
@@ -62,7 +65,8 @@ public class BattleService : MonoBehaviour
         // EndGame();
 
         PencilManager pd = new PencilManager();
-        pd.Load();
+        pd.Load(pencilPrefab);
+
 
         // プレイヤーの鉛筆を決める
         System.Random r = new System.Random();
