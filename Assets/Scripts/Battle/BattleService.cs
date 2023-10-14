@@ -10,7 +10,7 @@ public class BattleService : MonoBehaviour
     private Subject<bool> endGame = new Subject<bool>();
     [SerializeField] private GameObject pencilPrefab;
 
-    public class PencilManager
+    public class PencilListManager
     {
 
         [System.Serializable]
@@ -26,22 +26,22 @@ public class BattleService : MonoBehaviour
         {
             public List<JsonPencil> pencils;
         }
-        public List<Pencil> All = new List<Pencil>();
+        public List<Pencil> AllPencils = new List<Pencil>();
         public void Load(GameObject pencilPrefab)
         {
             string json = Resources.Load<TextAsset>("json/pencilList").ToString();
             // jsonをパースする
             JsonPencils jsonPencils = JsonUtility.FromJson<JsonPencils>(json);
             GameObject pencilObj = Instantiate(pencilPrefab);
-            foreach (JsonPencil jsonpencil in jsonPencils.pencils)
+            foreach (JsonPencil jsonPencil in jsonPencils.pencils)
             {
                 Pencil p = new Pencil(
-                    jsonpencil.MaxHp,
-                    jsonpencil.Name,
-                    jsonpencil.ActionList,
+                    jsonPencil.MaxHp,
+                    jsonPencil.Name,
+                    jsonPencil.ActionList,
                     pencilObj
                 );
-                All.Add(p);
+                AllPencils.Add(p);
             }
         }
     }
@@ -64,13 +64,13 @@ public class BattleService : MonoBehaviour
         Debug.Log("Service Start");
         // EndGame();
 
-        PencilManager pd = new PencilManager();
-        pd.Load(pencilPrefab);
+        PencilListManager pencliListManager = new PencilListManager();
+        pencliListManager.Load(pencilPrefab);
 
 
         // プレイヤーの鉛筆を決める
         System.Random r = new System.Random();
-        Pencil player1Pencil = pd.All[r.Next(0, pd.All.Count)];
+        Pencil player1Pencil = pencliListManager.AllPencils[r.Next(0, pencliListManager.AllPencils.Count)];
 
         // TODO: プレイヤーの初期化処理を行う
         Player player1 = new Player(player1Pencil);
