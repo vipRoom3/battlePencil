@@ -25,23 +25,29 @@ public class BattleService : MonoBehaviour
         {
             public List<JsonPencil> pencils;
         }
-        public List<Pencil> AllPencils = new List<Pencil>();
-        public void Load(GameObject pencilPrefab)
+        private List<JsonPencil> allJsonPencils;
+        public void Load()
         {
             string json = Resources.Load<TextAsset>("json/pencilList").ToString();
             // jsonをパースする
             JsonPencils jsonPencils = JsonUtility.FromJson<JsonPencils>(json);
+            allJsonPencils = jsonPencils.pencils;
+        }
+
+        public Pencil CreatePencil(GameObject pencilPrefab)
+        {
+            System.Random r = new System.Random();
+            JsonPencil newJsonPencil = allJsonPencils[r.Next(0, allJsonPencils.Count)];
+
             GameObject pencilObj = Instantiate(pencilPrefab);
-            foreach (JsonPencil jsonPencil in jsonPencils.pencils)
-            {
-                Pencil p = new Pencil(
-                    jsonPencil.MaxHp,
-                    jsonPencil.Name,
-                    jsonPencil.ActionList,
-                    pencilObj
-                );
-                AllPencils.Add(p);
-            }
+
+            Pencil newPencil = new Pencil(
+                newJsonPencil.MaxHp,
+                newJsonPencil.Name,
+                newJsonPencil.ActionList,
+                pencilObj
+            );
+            return newPencil;
         }
     }
     public IObservable<bool> IsEndGame
@@ -63,13 +69,11 @@ public class BattleService : MonoBehaviour
         Debug.Log("Service Start");
         // EndGame();
 
-        PencilListManager pencliListManager = new PencilListManager();
-        pencliListManager.Load(pencilPrefab);
-
+        PencilListManager pencilListManager = new PencilListManager();
+        pencilListManager.Load();
 
         // プレイヤーの鉛筆を決める
-        System.Random r = new System.Random();
-        Pencil player1Pencil = pencliListManager.AllPencils[r.Next(0, pencliListManager.AllPencils.Count)];
+        Pencil player1Pencil = pencilListManager.CreatePencil(pencilPrefab);
 
         // TODO: プレイヤーの初期化処理を行う
         Player player1 = new Player(player1Pencil);
