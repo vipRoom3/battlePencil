@@ -9,6 +9,8 @@ public class BattleService : MonoBehaviour
     private Subject<bool> endGame = new Subject<bool>();
     [SerializeField] private GameObject pencilPrefab;
 
+    private const string PENCIL_LIST_PATH = "json/pencilList";
+
     public class PencilListManager
     {
 
@@ -28,7 +30,7 @@ public class BattleService : MonoBehaviour
         private List<JsonPencil> allJsonPencils;
         public void Load()
         {
-            string json = Resources.Load<TextAsset>("json/pencilList").ToString();
+            string json = Resources.Load<TextAsset>(PENCIL_LIST_PATH).ToString();
             // jsonをパースする
             JsonPencils jsonPencils = JsonUtility.FromJson<JsonPencils>(json);
             allJsonPencils = jsonPencils.pencils;
@@ -47,6 +49,10 @@ public class BattleService : MonoBehaviour
                 newJsonPencil.ActionList,
                 pencilObj
             );
+
+            // pencilObjをPencilNumManagerに渡す
+            PencilNumManager pencilNumManager = GameObject.Find("Plane").GetComponent<PencilNumManager>();
+            pencilNumManager.SetRigidbody(pencilObj.GetComponent<Rigidbody>());
             return newPencil;
         }
     }

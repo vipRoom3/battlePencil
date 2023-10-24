@@ -30,4 +30,10 @@ public class PencilNumManager : MonoBehaviour
             }
         }
     }
+
+    public void SetRigidbody(Rigidbody rb)
+    {
+        _rb = rb;
+    }
+
 }
