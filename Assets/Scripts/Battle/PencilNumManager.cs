@@ -3,6 +3,7 @@ using UnityEngine;
 public class PencilNumManager : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rb;
+    [SerializeField] private Rigidbody _rb2;
     private void OnTriggerStay(Collider col)
     {
         if (_rb.IsSleeping())
@@ -31,9 +32,13 @@ public class PencilNumManager : MonoBehaviour
         }
     }
 
-    public void SetRigidbody(Rigidbody rb)
+    public void SetRigidbody(Rigidbody rb,int playerNum)
     {
-        _rb = rb;
+        if(playerNum == 1){
+            _rb = rb;
+        }else if(playerNum == 2){
+            _rb2 = rb;
+        }
     }
 
 }

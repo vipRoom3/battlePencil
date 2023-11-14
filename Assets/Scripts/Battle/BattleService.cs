@@ -36,13 +36,16 @@ public class BattleService : MonoBehaviour
             allJsonPencils = jsonPencils.pencils;
         }
 
-        public Pencil CreatePencil(GameObject pencilPrefab)
+        public Pencil CreatePencil(GameObject pencilPrefab,float pencilPosVector,int playerNum)
         {
             System.Random r = new System.Random();
             JsonPencil newJsonPencil = allJsonPencils[r.Next(0, allJsonPencils.Count)];
-
+            //ペンシル生成
             GameObject pencilObj = Instantiate(pencilPrefab);
-
+            //タグを付与
+            pencilObj.tag = "Pencil";
+            //ポジション変更
+            pencilObj.transform.position = new Vector3(pencilPosVector, 25, 0);
             Pencil newPencil = new Pencil(
                 newJsonPencil.MaxHp,
                 newJsonPencil.Name,
@@ -52,7 +55,8 @@ public class BattleService : MonoBehaviour
 
             // pencilObjをPencilNumManagerに渡す
             PencilNumManager pencilNumManager = GameObject.Find("Plane").GetComponent<PencilNumManager>();
-            pencilNumManager.SetRigidbody(pencilObj.GetComponent<Rigidbody>());
+            //PencilNumManagerにGameObjectをセット
+            pencilNumManager.SetRigidbody(pencilObj.GetComponent<Rigidbody>(),playerNum);
             return newPencil;
         }
     }
@@ -77,14 +81,24 @@ public class BattleService : MonoBehaviour
 
         PencilListManager pencilListManager = new PencilListManager();
         pencilListManager.Load();
-
+        float pencilPosPlayer1 = 12.5f;
         // プレイヤーの鉛筆を決める
-        Pencil player1Pencil = pencilListManager.CreatePencil(pencilPrefab);
+        Pencil player1Pencil = pencilListManager.CreatePencil(pencilPrefab,pencilPosPlayer1,1);
+
+        
+        float pencilPosPlayer2 = -12.5f;
+        // プレイヤー2の鉛筆を決める
+        Pencil player2Pencil = pencilListManager.CreatePencil(pencilPrefab,pencilPosPlayer2,2);
 
         // TODO: プレイヤーの初期化処理を行う
         Player player1 = new Player(player1Pencil);
 
+        
+        // TODO: プレイヤー2の初期化処理を行う
+        Player player2 = new Player(player2Pencil);
+
         Debug.Log(player1.pencil.Name);
+        Debug.Log(player2.pencil.Name);
     }
 
     // Update is called once per frame
@@ -98,7 +112,23 @@ public class BattleService : MonoBehaviour
     {
         Debug.Log("OnClick");
         // TODO: ここでペンシルを振る処理を行う
-
+        GameObject[] pencilTag = GameObject.FindGameObjectsWithTag("Pencil");
+        var rand = new System.Random();
+        //力の加える向き
+        float addDirection = 1f;
+        //200f~850f
+        float forceXnum = 200.0f;
+        foreach(GameObject pentag in pencilTag){
+            Rigidbody rb = pentag.GetComponent<Rigidbody>();
+            rb.useGravity = true;
+            //偶数、奇数で力の加える方向変更
+            addDirection = addDirection * -1.0f;
+            forceXnum = rand.Next(minValue: 200, maxValue: 850) * addDirection;
+            Vector3 force = new Vector3 (forceXnum,0.0f,0.0f);    // 力を設定
+            rb.AddForce (force);  // 力を加える
+        }
+        GameObject rollButton = GameObject.FindGameObjectWithTag("Roll");
+        rollButton.SetActive(false);
         // TODO: ここでペンシルを振った後の処理を行う
         EndGame();
     }
