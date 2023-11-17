@@ -15,6 +15,7 @@ public class Pencil
     public Pencil(int maxHp, string name, List<string> actionList, GameObject obj)
     {
         MaxHp = maxHp;
+        Hp = maxHp;
         Name = name;
         ActionList = new List<string>(actionList);
         Obj = obj;
