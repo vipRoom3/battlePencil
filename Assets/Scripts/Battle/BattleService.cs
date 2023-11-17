@@ -11,6 +11,8 @@ public class BattleService : MonoBehaviour
 
     private const string PENCIL_LIST_PATH = "json/pencilList";
 
+    private bool isGameStarted = false;
+
     public class PencilListManager
     {
 
@@ -85,7 +87,7 @@ public class BattleService : MonoBehaviour
         // プレイヤーの鉛筆を決める
         Pencil player1Pencil = pencilListManager.CreatePencil(pencilPrefab,pencilPosPlayer1,1);
 
-        
+
         float pencilPosPlayer2 = -12.5f;
         // プレイヤー2の鉛筆を決める
         Pencil player2Pencil = pencilListManager.CreatePencil(pencilPrefab,pencilPosPlayer2,2);
@@ -93,7 +95,7 @@ public class BattleService : MonoBehaviour
         // TODO: プレイヤーの初期化処理を行う
         Player player1 = new Player(player1Pencil);
 
-        
+
         // TODO: プレイヤー2の初期化処理を行う
         Player player2 = new Player(player2Pencil);
 
@@ -101,10 +103,52 @@ public class BattleService : MonoBehaviour
         Debug.Log(player2.pencil.Name);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    private float pencil1StoppedTime = 0f;
+    private float pencil2StoppedTime = 0f;
+    private const float STOPPED_THRESHOLD = 2f;
 
+    void FixedUpdate()
+    {
+        if (!isGameStarted)
+        {
+            return;
+        }
+        // pencilを探す
+        GameObject[] pencilTag = GameObject.FindGameObjectsWithTag("Pencil");
+        //  両方のペンシルが停止しているかチェック
+        bool[] pencilStopped = new bool[2];
+        int i = 0;
+        foreach (GameObject pentag in pencilTag)
+        {
+            Rigidbody rb = pentag.GetComponent<Rigidbody>();
+            if (rb.IsSleeping())
+            {
+                pencilStopped[i] = true;
+            }
+            else
+            {
+                pencilStopped[i] = false;
+            }
+            i++;
+        }
+        // 両方のペンシルが2秒間停止していたら
+        if (pencilStopped[0] && pencilStopped[1])
+        {
+            pencil1StoppedTime += Time.deltaTime;
+            pencil2StoppedTime += Time.deltaTime;
+            if (pencil1StoppedTime > STOPPED_THRESHOLD && pencil2StoppedTime > STOPPED_THRESHOLD)
+            {
+                Debug.Log("両方のペンシルが停止している");
+                // ペンシルの角度を取得
+                float pencil1Angle = pencilTag[0].transform.rotation.eulerAngles.z;
+                float pencil2Angle = pencilTag[1].transform.rotation.eulerAngles.z;
+                Debug.Log(pencil1Angle);
+                Debug.Log(pencil2Angle);
+            }
+        }else {
+            pencil1StoppedTime = 0f;
+            pencil2StoppedTime = 0f;
+        }
     }
 
     // RollPencil
@@ -118,7 +162,7 @@ public class BattleService : MonoBehaviour
         float addDirection = 1f;
         //力を加える位置
         Vector3 powerPoint= new Vector3(0.0f, 1.0f, 0.0f);
-            
+
         //200f~850f
         float forceXnum = 200.0f;
         foreach(GameObject pentag in pencilTag){
@@ -134,7 +178,8 @@ public class BattleService : MonoBehaviour
         }
         GameObject rollButton = GameObject.FindGameObjectWithTag("Roll");
         rollButton.SetActive(false);
+        isGameStarted = true;
         // TODO: ここでペンシルを振った後の処理を行う
-        EndGame();
+        // EndGame();
     }
 }
