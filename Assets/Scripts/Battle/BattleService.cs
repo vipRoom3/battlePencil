@@ -45,7 +45,7 @@ public class BattleService : MonoBehaviour
             //タグを付与
             pencilObj.tag = "Pencil";
             //ポジション変更
-            pencilObj.transform.position = new Vector3(pencilPosVector, 25, 0);
+            pencilObj.transform.position = new Vector3(pencilPosVector, 25.0f, 0.0f);
             Pencil newPencil = new Pencil(
                 newJsonPencil.MaxHp,
                 newJsonPencil.Name,
@@ -116,16 +116,21 @@ public class BattleService : MonoBehaviour
         var rand = new System.Random();
         //力の加える向き
         float addDirection = 1f;
+        //力を加える位置
+        Vector3 powerPoint= new Vector3(0.0f, 1.0f, 0.0f);
+            
         //200f~850f
         float forceXnum = 200.0f;
         foreach(GameObject pentag in pencilTag){
             Rigidbody rb = pentag.GetComponent<Rigidbody>();
             rb.useGravity = true;
+            Vector3 penPos = pentag.transform.position;
             //偶数、奇数で力の加える方向変更
             addDirection = addDirection * -1.0f;
             forceXnum = rand.Next(minValue: 200, maxValue: 850) * addDirection;
-            Vector3 force = new Vector3 (forceXnum,0.0f,0.0f);    // 力を設定
-            rb.AddForce (force);  // 力を加える
+            rb.AddForceAtPosition(new Vector3(forceXnum, 1.0f, 0.0f), penPos + powerPoint );
+            // Vector3 force = new Vector3 (forceXnum,0.0f,0.0f);    // 力を設定
+            // rb.AddForce (force);  // 力を加える
         }
         GameObject rollButton = GameObject.FindGameObjectWithTag("Roll");
         rollButton.SetActive(false);
