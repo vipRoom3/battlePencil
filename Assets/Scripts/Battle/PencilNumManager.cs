@@ -32,11 +32,14 @@ public class PencilNumManager : MonoBehaviour
         }
     }
 
-    public void SetRigidbody(Rigidbody rb,int playerNum)
+    public void SetRigidbody(Rigidbody rb, int playerNum)
     {
-        if(playerNum == 1){
+        if (playerNum == 1)
+        {
             _rb = rb;
-        }else if(playerNum == 2){
+        }
+        else if (playerNum == 2)
+        {
             _rb2 = rb;
         }
     }
