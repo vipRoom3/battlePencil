@@ -36,7 +36,7 @@ public class BattleService : MonoBehaviour
             allJsonPencils = jsonPencils.pencils;
         }
 
-        public Pencil CreatePencil(GameObject pencilPrefab,float pencilPosVector,int playerNum)
+        public Pencil CreatePencil(GameObject pencilPrefab, float pencilPosVector, int playerNum)
         {
             System.Random r = new System.Random();
             JsonPencil newJsonPencil = allJsonPencils[r.Next(0, allJsonPencils.Count)];
@@ -56,7 +56,7 @@ public class BattleService : MonoBehaviour
             // pencilObjをPencilNumManagerに渡す
             PencilNumManager pencilNumManager = GameObject.Find("Plane").GetComponent<PencilNumManager>();
             //PencilNumManagerにGameObjectをセット
-            pencilNumManager.SetRigidbody(pencilObj.GetComponent<Rigidbody>(),playerNum);
+            pencilNumManager.SetRigidbody(pencilObj.GetComponent<Rigidbody>(), playerNum);
             return newPencil;
         }
     }
@@ -83,17 +83,17 @@ public class BattleService : MonoBehaviour
         pencilListManager.Load();
         float pencilPosPlayer1 = 12.5f;
         // プレイヤーの鉛筆を決める
-        Pencil player1Pencil = pencilListManager.CreatePencil(pencilPrefab,pencilPosPlayer1,1);
+        Pencil player1Pencil = pencilListManager.CreatePencil(pencilPrefab, pencilPosPlayer1, 1);
 
-        
+
         float pencilPosPlayer2 = -12.5f;
         // プレイヤー2の鉛筆を決める
-        Pencil player2Pencil = pencilListManager.CreatePencil(pencilPrefab,pencilPosPlayer2,2);
+        Pencil player2Pencil = pencilListManager.CreatePencil(pencilPrefab, pencilPosPlayer2, 2);
 
         // TODO: プレイヤーの初期化処理を行う
         Player player1 = new Player(player1Pencil);
 
-        
+
         // TODO: プレイヤー2の初期化処理を行う
         Player player2 = new Player(player2Pencil);
 
@@ -117,18 +117,19 @@ public class BattleService : MonoBehaviour
         //力の加える向き
         float addDirection = 1f;
         //力を加える位置
-        Vector3 powerPoint= new Vector3(0.0f, 1.0f, 0.0f);
-            
+        Vector3 powerPoint = new Vector3(0.0f, 1.0f, 0.0f);
+
         //200f~850f
         float forceXnum = 200.0f;
-        foreach(GameObject pentag in pencilTag){
+        foreach (GameObject pentag in pencilTag)
+        {
             Rigidbody rb = pentag.GetComponent<Rigidbody>();
             rb.useGravity = true;
             Vector3 penPos = pentag.transform.position;
             //偶数、奇数で力の加える方向変更
             addDirection = addDirection * -1.0f;
             forceXnum = rand.Next(minValue: 200, maxValue: 850) * addDirection;
-            rb.AddForceAtPosition(new Vector3(forceXnum, 1.0f, 0.0f), penPos + powerPoint );
+            rb.AddForceAtPosition(new Vector3(forceXnum, 1.0f, 0.0f), penPos + powerPoint);
             // Vector3 force = new Vector3 (forceXnum,0.0f,0.0f);    // 力を設定
             // rb.AddForce (force);  // 力を加える
         }

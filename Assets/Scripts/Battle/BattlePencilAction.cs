@@ -25,7 +25,8 @@ public class BattlePencilAction : MonoBehaviour
         SetHpText();
     }
 
-    void SetHpText(){
+    void SetHpText()
+    {
         MyHPText.text = "HP：" + MyHP.ToString();
         EnemyHPText.text = "HP：" + EnemyHP.ToString();
     }
