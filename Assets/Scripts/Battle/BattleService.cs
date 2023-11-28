@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleService : MonoBehaviour
 {
 
     private Subject<bool> endGame = new Subject<bool>();
     [SerializeField] private GameObject pencilPrefab;
-
+    [SerializeField] private Text MyHPText;
+    [SerializeField] private Text EnemyHPText;
     private const string PENCIL_LIST_PATH = "json/pencilList";
 
     private bool isGameStarted = false;
@@ -74,7 +76,8 @@ public class BattleService : MonoBehaviour
         // TODO: ゲーム終了の条件を満たしたらtrueにする
         endGame.OnNext(isEndGame);
     }
-
+    Player player1;
+    Player player2;
     // Start is called before the first frame update
     void Start()
     {
@@ -91,11 +94,13 @@ public class BattleService : MonoBehaviour
         Pencil player2Pencil = pencilListManager.CreatePencil(pencilPrefab, pencilPosPlayer2, 2);
 
         // TODO: プレイヤーの初期化処理を行う
-        Player player1 = new Player(player1Pencil);
+        player1 = new Player(player1Pencil);
 
         // TODO: プレイヤー2の初期化処理を行う
-        Player player2 = new Player(player2Pencil);
+        player2 = new Player(player2Pencil);
 
+        MyHPText.text = "HP：" + player1.pencil.Hp.ToString();
+        EnemyHPText.text = "HP：" + player2.pencil.Hp.ToString();
         Debug.Log(player1.pencil.Name);
         Debug.Log(player2.pencil.Name);
     }
@@ -110,6 +115,9 @@ public class BattleService : MonoBehaviour
         {
             return;
         }
+        
+        MyHPText.text = "HP：" + player1.pencil.Hp.ToString();
+        EnemyHPText.text = "HP：" + player2.pencil.Hp.ToString();
         // pencilを探す
         GameObject[] pencilTag = GameObject.FindGameObjectsWithTag("Pencil");
         //  両方のペンシルが停止しているかチェック
