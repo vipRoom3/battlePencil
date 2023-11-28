@@ -115,7 +115,7 @@ public class BattleService : MonoBehaviour
         {
             return;
         }
-        
+
         MyHPText.text = "HP：" + player1.pencil.Hp.ToString();
         EnemyHPText.text = "HP：" + player2.pencil.Hp.ToString();
         // pencilを探す
@@ -148,7 +148,17 @@ public class BattleService : MonoBehaviour
                 float pencil1Angle = pencilTag[0].transform.rotation.eulerAngles.z;
                 float pencil2Angle = pencilTag[1].transform.rotation.eulerAngles.z;
                 Debug.Log(pencil1Angle);
-                Debug.Log(pencil2Angle);
+                // 6角形の出目を計算
+                int pencil1Result = CalculatePencilResult(pencil1Angle);
+                int pencil2Result = CalculatePencilResult(pencil2Angle);
+                // 6角形の出目を反転
+                int pencil1ReverseResult = ReversePencilResult(pencil1Result);
+                int pencil2ReverseResult = ReversePencilResult(pencil2Result);
+                // 計算から出た出目をactionに渡す
+                BattlePencilAction battlePencilAction = GameObject.Find("GameObject").GetComponent<BattlePencilAction>();
+                battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult);
+
+                // ペンシルの位置を戻す
             }
         }
         else
@@ -189,5 +199,51 @@ public class BattleService : MonoBehaviour
         isGameStarted = true;
         // TODO: ここでペンシルを振った後の処理を行う
         // EndGame();
+    }
+
+    float[] angles = new float[] { 0, 60, 120, 180, 240, 300 };
+    float tolerance = 30; // 角度の許容範囲
+    private int CalculatePencilResult(float angle)
+    {
+        angle = NormalizeAngle(angle);
+        for (int i = 0; i < angles.Length; i++)
+        {
+            if (angle >= angles[i] - tolerance && angle <= angles[i] + tolerance)
+            {
+                return i + 1;
+            }
+        }
+        return 0;
+    }
+
+    private float NormalizeAngle(float angle)
+    {
+        angle = angle % 360;
+        if (angle < 0)
+        {
+            angle += 360;
+        }
+        return angle;
+    }
+
+    private int ReversePencilResult(int result)
+    {
+        switch (result)
+        {
+            case 1:
+                return 4;
+            case 2:
+                return 5;
+            case 3:
+                return 6;
+            case 4:
+                return 1;
+            case 5:
+                return 2;
+            case 6:
+                return 3;
+            default:
+                return 0;
+        }
     }
 }
