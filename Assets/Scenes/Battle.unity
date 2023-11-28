@@ -576,6 +576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pencilPrefab: {fileID: 6618511775089157859, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+  MyHPText: {fileID: 1586874648}
+  EnemyHPText: {fileID: 1673380589}
 --- !u!114 &380346341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,8 +618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cf06493b532b34cae618cbfb8fc9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countText: {fileID: 1586874648}
-  countText2: {fileID: 1673380589}
 --- !u!1001 &389483044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1312,7 +1312,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
