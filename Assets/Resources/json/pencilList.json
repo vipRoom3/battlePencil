@@ -11,6 +11,30 @@
                 "miss, 0",
                 "heal, 10"
             ]
+        },
+        {
+            "Name": "test2",
+            "MaxHp": 120,
+            "ActionList": [
+                "attack, 10",
+                "miss, 0",
+                "heal, 20",
+                "attack, 10",
+                "miss, 0",
+                "heal, 20"
+            ]
+        },
+        {
+            "Name": "test3",
+            "MaxHp": 50,
+            "ActionList": [
+                "attack, 40",
+                "miss, 0",
+                "heal, 10",
+                "attack, 40",
+                "miss, 0",
+                "attack, 30"
+            ]
         }
     ]
 }
