@@ -20,5 +20,8 @@ public class Pencil
         ActionList = new List<string>(actionList);
         Obj = obj;
     }
+    public void setHp(int hp){
+        Hp = hp;
+    }
 
 }
