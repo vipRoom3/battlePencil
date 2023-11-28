@@ -86,15 +86,12 @@ public class BattleService : MonoBehaviour
         float pencilPosPlayer1 = 12.5f;
         // プレイヤーの鉛筆を決める
         Pencil player1Pencil = pencilListManager.CreatePencil(pencilPrefab, pencilPosPlayer1, 1);
-
-
         float pencilPosPlayer2 = -12.5f;
         // プレイヤー2の鉛筆を決める
         Pencil player2Pencil = pencilListManager.CreatePencil(pencilPrefab, pencilPosPlayer2, 2);
 
         // TODO: プレイヤーの初期化処理を行う
         Player player1 = new Player(player1Pencil);
-
 
         // TODO: プレイヤー2の初期化処理を行う
         Player player2 = new Player(player2Pencil);
