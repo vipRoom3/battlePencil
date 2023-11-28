@@ -1340,6 +1340,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2363698706114561448, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3702274680750045736, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5805841167670951001, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1380,6 +1388,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5868102172699565909, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6241989816766750997, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6618511775089157859, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
       propertyPath: m_Name
       value: pencil
@@ -1393,7 +1409,13 @@ PrefabInstance:
       value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3328382395464792584, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+    - {fileID: 8484848894132145572, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+    - {fileID: 1929371504656285283, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+    - {fileID: 6719305858978378735, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+    - {fileID: 5868102172699565909, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
+    - {fileID: 2158867801550463475, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6748df8f47c07e4dbd4808defc551a2, type: 3}
