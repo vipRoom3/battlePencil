@@ -5,11 +5,11 @@
             "MaxHp": 100,
             "ActionList": [
                 "attack, 20",
-                "miss, 0",
+                "attack, 20",
                 "heal, 10",
                 "attack, 20",
-                "miss, 0",
-                "heal, 10"
+                "heal, 10",
+                "attack, 30"
             ]
         },
         {
@@ -17,11 +17,11 @@
             "MaxHp": 120,
             "ActionList": [
                 "attack, 10",
-                "miss, 0",
+                "attack, 10",
                 "heal, 20",
                 "attack, 10",
-                "miss, 0",
-                "heal, 20"
+                "attack, 10",
+                "attack, 20"
             ]
         },
         {
@@ -29,10 +29,10 @@
             "MaxHp": 50,
             "ActionList": [
                 "attack, 40",
-                "miss, 0",
+                "attack, 20",
                 "heal, 10",
                 "attack, 40",
-                "miss, 0",
+                "attack, 20",
                 "attack, 30"
             ]
         }

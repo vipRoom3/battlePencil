@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BattleService : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class BattleService : MonoBehaviour
     [SerializeField] private GameObject pencilPrefab;
     [SerializeField] private Text MyHPText;
     [SerializeField] private Text EnemyHPText;
+    [SerializeField] private Text Victory;
+    [SerializeField] private Text Defeat;
+    [SerializeField] private GameObject HomeButton;
     private const string PENCIL_LIST_PATH = "json/pencilList";
 
     private bool isGameStarted = false;
@@ -71,10 +75,19 @@ public class BattleService : MonoBehaviour
 
     public void EndGame()
     {
-        // ここでゲーム終了の処理を行う
-        bool isEndGame = false;
-        // TODO: ゲーム終了の条件を満たしたらtrueにする
-        endGame.OnNext(isEndGame);
+        if(player1.pencil.Hp == 0){
+            Defeat.enabled = true;
+            HomeButton.SetActive(true);
+            
+        }else if(player2.pencil.Hp == 0){
+            Victory.enabled = true;
+            HomeButton.SetActive(true);
+        }
+
+        // // ここでゲーム終了の処理を行う
+        // bool isEndGame = false;
+        // // TODO: ゲーム終了の条件を満たしたらtrueにする
+        // endGame.OnNext(isEndGame);
     }
     Player player1;
     Player player2;
@@ -83,7 +96,6 @@ public class BattleService : MonoBehaviour
     {
         Debug.Log("Service Start");
         // EndGame();
-
         PencilListManager pencilListManager = new PencilListManager();
         pencilListManager.Load();
         float pencilPosPlayer1 = 12.5f;
@@ -109,6 +121,7 @@ public class BattleService : MonoBehaviour
     private float pencil2StoppedTime = 0f;
     private const float STOPPED_THRESHOLD = 2f;
     private bool flag = true;
+    private bool isEndFlag = false;
 
     void FixedUpdate()
     {
@@ -162,43 +175,66 @@ public class BattleService : MonoBehaviour
                 // 出目が小さいほうが先にcalculationを行う
                 if (pencil1ReverseResult < pencil2ReverseResult)
                 {
-                    battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult);
-                    battlePencilAction.BattleCalculation(player2, player1, pencil2ReverseResult);
+                    //HPが0になったかの判定
+                    if(battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult)){
+                        //HPが0のとき
+                        isEndFlag = true;
+                    }else{
+                        //HPが0ではないとき
+                        if(battlePencilAction.BattleCalculation(player2, player1, pencil2ReverseResult)){
+                            //HPが0のとき
+                            isEndFlag = true;
+                        }
+                    }
+                    
                 }
                 else
                 {
-                    battlePencilAction.BattleCalculation(player2, player1, pencil2ReverseResult);
-                    battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult);
+                    //HPが0になったかの判定
+                    if(battlePencilAction.BattleCalculation(player2, player1, pencil1ReverseResult)){
+                        //HPが0のとき
+                        isEndFlag = true;
+                    }else{
+                        //HPが0ではないとき
+                        if(battlePencilAction.BattleCalculation(player1, player2, pencil2ReverseResult)){
+                            //HPが0のとき
+                            isEndFlag = true;
+                        }
+                    }
                 }
 
                 // EndGame()
 
-                // ペンシルの位置を戻す
+                // 止まってからの時間を計測開始
                 flag = false;
                 pencil1StoppedTime = 0f;
                 pencil2StoppedTime = 0f;
             }
+            else if(pencil1StoppedTime > STOPPED_THRESHOLD && pencil2StoppedTime > STOPPED_THRESHOLD && flag == false && isEndFlag)
+            {
+                EndGame();
+            }
             else if(pencil1StoppedTime > STOPPED_THRESHOLD && pencil2StoppedTime > STOPPED_THRESHOLD && flag == false)
             {
-                // シーン切り替え
-                // pencilObj.transform.position = new Vector3(pencilPosVector, 25.0f, 0.0f);
-                // float pencilPosPlayer1 = 12.5f;
-                // float pencilPosPlayer2 = -12.5f;
-                // ペンシルの位置を戻す
-                // ペンシルの重力を切る
-                player1.pencil.Obj.GetComponent<Rigidbody>().useGravity = false;
-                player2.pencil.Obj.GetComponent<Rigidbody>().useGravity = false;
+                    // シーン切り替え
+                    // pencilObj.transform.position = new Vector3(pencilPosVector, 25.0f, 0.0f);
+                    // float pencilPosPlayer1 = 12.5f;
+                    // float pencilPosPlayer2 = -12.5f;
+                    // ペンシルの位置を戻す
+                    // ペンシルの重力を切る
+                    player1.pencil.Obj.GetComponent<Rigidbody>().useGravity = false;
+                    player2.pencil.Obj.GetComponent<Rigidbody>().useGravity = false;
 
-                // ペンシルの位置を戻す
-                player1.pencil.Obj.transform.position = new Vector3(12.5f, 25.0f, 0.0f);
-                player2.pencil.Obj.transform.position = new Vector3(-12.5f, 25.0f, 0.0f);
+                    // ペンシルの位置を戻す
+                    player1.pencil.Obj.transform.position = new Vector3(12.5f, 25.0f, 0.0f);
+                    player2.pencil.Obj.transform.position = new Vector3(-12.5f, 25.0f, 0.0f);
 
-                // ボタンを表示
-                Debug.Log(rollButton);
-                rollButton.SetActive(true);
+                    // ボタンを表示
+                    Debug.Log(rollButton);
+                    rollButton.SetActive(true);
 
-                flag = true;
-                isGameStarted = false;
+                    flag = true;
+                    isGameStarted = false;
 
             }
         }
@@ -210,6 +246,11 @@ public class BattleService : MonoBehaviour
     }
 
     GameObject rollButton;
+
+    
+    public void OnClickHome(){
+        SceneManager.LoadScene("Title");
+    }
     // RollPencil
     public void OnClick()
     {
