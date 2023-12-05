@@ -108,6 +108,7 @@ public class BattleService : MonoBehaviour
     private float pencil1StoppedTime = 0f;
     private float pencil2StoppedTime = 0f;
     private const float STOPPED_THRESHOLD = 2f;
+    private bool flag = true;
 
     void FixedUpdate()
     {
@@ -141,24 +142,64 @@ public class BattleService : MonoBehaviour
         {
             pencil1StoppedTime += Time.deltaTime;
             pencil2StoppedTime += Time.deltaTime;
-            if (pencil1StoppedTime > STOPPED_THRESHOLD && pencil2StoppedTime > STOPPED_THRESHOLD)
+            if (pencil1StoppedTime > STOPPED_THRESHOLD && pencil2StoppedTime > STOPPED_THRESHOLD && flag == true)
             {
                 Debug.Log("両方のペンシルが停止している");
                 // ペンシルの角度を取得
                 float pencil1Angle = pencilTag[0].transform.rotation.eulerAngles.z;
                 float pencil2Angle = pencilTag[1].transform.rotation.eulerAngles.z;
-                Debug.Log(pencil1Angle);
                 // 6角形の出目を計算
                 int pencil1Result = CalculatePencilResult(pencil1Angle);
                 int pencil2Result = CalculatePencilResult(pencil2Angle);
                 // 6角形の出目を反転
                 int pencil1ReverseResult = ReversePencilResult(pencil1Result);
                 int pencil2ReverseResult = ReversePencilResult(pencil2Result);
+                Debug.Log("pencil1Result: " + pencil1Result);
+                Debug.Log("pencil2Result: " + pencil2Result);
                 // 計算から出た出目をactionに渡す
                 BattlePencilAction battlePencilAction = GameObject.Find("GameObject").GetComponent<BattlePencilAction>();
-                battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult);
+                // battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult);
+                // 出目が小さいほうが先にcalculationを行う
+                if (pencil1ReverseResult < pencil2ReverseResult)
+                {
+                    battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult);
+                    battlePencilAction.BattleCalculation(player2, player1, pencil2ReverseResult);
+                }
+                else
+                {
+                    battlePencilAction.BattleCalculation(player2, player1, pencil2ReverseResult);
+                    battlePencilAction.BattleCalculation(player1, player2, pencil1ReverseResult);
+                }
+
+                // EndGame()
 
                 // ペンシルの位置を戻す
+                flag = false;
+                pencil1StoppedTime = 0f;
+                pencil2StoppedTime = 0f;
+            }
+            else if(pencil1StoppedTime > STOPPED_THRESHOLD && pencil2StoppedTime > STOPPED_THRESHOLD && flag == false)
+            {
+                // シーン切り替え
+                // pencilObj.transform.position = new Vector3(pencilPosVector, 25.0f, 0.0f);
+                // float pencilPosPlayer1 = 12.5f;
+                // float pencilPosPlayer2 = -12.5f;
+                // ペンシルの位置を戻す
+                // ペンシルの重力を切る
+                player1.pencil.Obj.GetComponent<Rigidbody>().useGravity = false;
+                player2.pencil.Obj.GetComponent<Rigidbody>().useGravity = false;
+
+                // ペンシルの位置を戻す
+                player1.pencil.Obj.transform.position = new Vector3(12.5f, 25.0f, 0.0f);
+                player2.pencil.Obj.transform.position = new Vector3(-12.5f, 25.0f, 0.0f);
+
+                // ボタンを表示
+                Debug.Log(rollButton);
+                rollButton.SetActive(true);
+
+                flag = true;
+                isGameStarted = false;
+
             }
         }
         else
@@ -168,6 +209,7 @@ public class BattleService : MonoBehaviour
         }
     }
 
+    GameObject rollButton;
     // RollPencil
     public void OnClick()
     {
@@ -194,7 +236,7 @@ public class BattleService : MonoBehaviour
             // Vector3 force = new Vector3 (forceXnum,0.0f,0.0f);    // 力を設定
             // rb.AddForce (force);  // 力を加える
         }
-        GameObject rollButton = GameObject.FindGameObjectWithTag("Roll");
+        rollButton = GameObject.FindGameObjectWithTag("Roll");
         rollButton.SetActive(false);
         isGameStarted = true;
         // TODO: ここでペンシルを振った後の処理を行う

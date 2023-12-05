@@ -8,14 +8,19 @@ public class BattlePencilAction : MonoBehaviour
         string[] arr =  myPlayer.pencil.ActionList[pencilNum - 1].Split(", ", StringSplitOptions.None);
         if(arr[0] == "attack")
         {
-            enemyPlayer.pencil.setHp(enemyPlayer.pencil.Hp - int.Parse(arr[1]));
+            Debug.Log("attack");
+            // 0を下回らないようにする
+            enemyPlayer.pencil.setHp(Mathf.Max(enemyPlayer.pencil.Hp - int.Parse(arr[1]), 0));
         }
         else if(arr[0] == "heal")
         {
-            myPlayer.pencil.setHp(myPlayer.pencil.Hp - int.Parse(arr[1]));
+            Debug.Log("heal");
+            // maxHpを超えないようにする
+            myPlayer.pencil.setHp(Mathf.Min(myPlayer.pencil.Hp + int.Parse(arr[1]), myPlayer.pencil.MaxHp));
         }
         else if(arr[0] == "miss")
         {
+            Debug.Log("miss");
             enemyPlayer.pencil.setHp(enemyPlayer.pencil.Hp - int.Parse(arr[1]));
         }
     }
